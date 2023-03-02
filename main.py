@@ -1,8 +1,3 @@
-# micropython-easytime
-适用于 micropython 的时间设置与管理模块，可以较为方便地设置、获取或同步时间
-
-### 代码示例
-```python
 from libs.easytime import EasyTime
 
 # time_zone 为时区
@@ -31,4 +26,3 @@ print(et.month())
 # 现在的以此类推，此处不再举例
 # 从 NTP 时间服务器同步时间（请先连接网络）
 # et.sync()
-```
