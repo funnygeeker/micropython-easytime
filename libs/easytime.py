@@ -1,5 +1,8 @@
 # Author: funnygeeker（稽术宅）
 # Github: https://github.com/funnygeeker/micropython-easytime
+# 参考资料：
+# Github - PyClock：https://github.com/01studio-lab/pyClock
+# MicroPython - Docs：https://docs.micropython.org/en/latest/library/pyb.RTC.html
 import time as _time
 from machine import RTC
 

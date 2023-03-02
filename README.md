@@ -32,3 +32,12 @@ print(et.month())
 # 从 NTP 时间服务器同步时间（请先连接网络）
 # et.sync()
 ```
+
+### 参考资料
+Github - PyClock：[https://github.com/01studio-lab/pyClock](https://github.com/01studio-lab/pyClock)
+MicroPython - Docs：[https://docs.micropython.org/en/latest/library/pyb.RTC.html](https://docs.micropython.org/en/latest/library/pyb.RTC.html)
+
+### 其他
+感谢各位大佬对开源做出的贡献！
+
+交流QQ群：[748103265](https://jq.qq.com/?_wv=1027&k=I74bKifU)
