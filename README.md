@@ -33,6 +33,10 @@ print(et.month())
 # et.sync()
 ```
 
+### 注意事项
+- 时间同步需要连接网络，在硬件允许的情况下，您可以使用 `micropython-easynetwork` 连接无线网络，也可以用其他的方式。
+- [https://github.com/funnygeeker/micropython-easynetwork](https://github.com/funnygeeker/micropython-easynetwork)
+
 ### 参考资料
 Github - PyClock：[https://github.com/01studio-lab/pyClock](https://github.com/01studio-lab/pyClock)
 
