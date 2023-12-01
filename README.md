@@ -1,48 +1,43 @@
+[简体中文 (Chinese)](./README.ZH-CN.md)
 # micropython-easytime
-适用于 micropython 的时间设置与管理模块，可以较为方便地设置、获取或同步时间
 
-### 代码示例
+A time management module for `micropython` that allows for easy setting, retrieving, and synchronizing of time.
+
+### Code Example
 ```python
 from libs.easytime import EasyTime
 
-# time_zone 为时区
 et = EasyTime(time_zone=8, datetime=(2023, 1, 1, 6, 0, 0, 0, 0))
 
-# 获取当前时间
+# Get the current time
 print(et.time())
 # (2023, 1, 1, 6, 0, 0, 0, 226)
 
-# 设置当前时间
+# Set the current time
 print(et.time((2023, 1, 1, 6, 1, 0, 0, 0)))
 # None
 
-# 设置当前年份
+# Set the current year
 print(et.year(2022))
 # None
 
-# 获取当前年份
+# Get the current year
 print(et.year())
 # 2023
 
-# 获取当前月份
+# Get the current month
 print(et.month())
 # 1
 
-# 其他的详见源码，以此类推，此处不再举例
-# 从 NTP 时间服务器同步时间（请先连接网络）
+# For more details, please refer to the source code. This is just an example.
+# Synchronize time from NTP time server (Please connect to the network first)
 # et.sync()
 ```
 
-### 注意事项
-- 时间同步需要连接网络，在硬件允许的情况下，您可以使用 `micropython-easynetwork` 连接无线网络，也可以用其他的方式。
+### Notes
+- Time synchronization requires a network connection. You can use `micropython-easynetwork` to connect to a wireless network or use other methods.
 - [https://github.com/funnygeeker/micropython-easynetwork](https://github.com/funnygeeker/micropython-easynetwork)
 
-### 参考资料
-Github - PyClock：[https://github.com/01studio-lab/pyClock](https://github.com/01studio-lab/pyClock)
-
-MicroPython - Docs：[https://docs.micropython.org/en/latest/library/pyb.RTC.html](https://docs.micropython.org/en/latest/library/pyb.RTC.html)
-
-### 其他
-感谢各位大佬对开源做出的贡献！
-
-交流QQ群：[748103265](https://jq.qq.com/?_wv=1027&k=I74bKifU)
+### References
+Github - PyClock: [https://github.com/01studio-lab/pyClock](https://github.com/01studio-lab/pyClock)
+MicroPython - Docs: [https://docs.micropython.org/en/latest/library/pyb.RTC.html](https://docs.micropython.org/en/latest/library/pyb.RTC.html)
