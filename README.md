@@ -5,7 +5,7 @@ A time management module for `micropython` that allows for easy setting, retriev
 
 ### Code Example
 ```python
-from libs.easytime import EasyTime
+from lib.easytime import EasyTime
 
 et = EasyTime(time_zone=8, datetime=(2023, 1, 1, 6, 0, 0, 0, 0))
 

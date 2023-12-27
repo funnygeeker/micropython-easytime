@@ -4,7 +4,7 @@
 
 ### 代码示例
 ```python
-from libs.easytime import EasyTime
+from lib.easytime import EasyTime
 
 # time_zone 为时区
 et = EasyTime(time_zone=8, datetime=(2023, 1, 1, 6, 0, 0, 0, 0))
