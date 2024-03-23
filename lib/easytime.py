@@ -3,13 +3,15 @@
 # 参考资料：
 # Github - PyClock：https://github.com/01studio-lab/pyClock
 # MicroPython - Docs：https://docs.micropython.org/en/latest/library/pyb.RTC.html
+import ntptime
 import time as _time
-from machine import RTC
+from machine import RTC, Timer
 
 
 class EasyTime:
     def __init__(self, time_zone: int = 8, datetime: tuple = None,
-                 host: str = 'time3.cloud.tencent.com', delay: int = 1000, retry: int = 3):
+                 host: str = 'time3.cloud.tencent.com', delay: int = 1000, retry: int = 3,
+                 sync_delay: int = 180):
         """
         Args:
             time_zone: 时区
@@ -17,20 +19,24 @@ class EasyTime:
             host: NTP 时间服务器的 IP 地址或域名
             delay: 获取时间失败后的间隔时间，单位：毫秒
             retry: 获取时间失败后的最大重试次数
+            sync_delay: 自动通过 NTP 服务同步时间的间隔，单位：分钟
         """
-        import ntptime
         self.rtc = RTC()
         if datetime:
-            self.rtc.init(datetime)
+            self.rtc.datetime(datetime)
         self.host = host
         self.delay = delay
         self.retry = retry
         self.ntptime = ntptime
         self.time_zone = time_zone
+        # 自动时间同步
+        self._sync_timer = None
+        self._sync_delay = sync_delay
 
     def _time(self, num: int, index: int):
         """
-        [私有函数] 获取或设置具体时间
+        获取或设置具体时间
+
         Args:
             num: 具体数值
             index: 需要设置数据的索引
@@ -99,19 +105,38 @@ class EasyTime:
         else:
             return self.rtc.datetime(time)
 
-    def sync(self) -> bool:
+    def init_auto_sync(self):
         """
-        与 NTP 服务器同步时间
+        初始化时间自动同步
+        """
+        self._sync_timer = Timer(10000)
+        self._sync_timer.init(mode=Timer.PERIODIC, period=self._sync_delay * 60 * 1000, callback=self.sync)
+
+    def deinit_auto_sync(self):
+        """
+        停止时间自动同步
+        """
+        if self._sync_timer:
+            self._sync_timer.deinit()
+
+    def sync(self, *args) -> bool:
+        """
+        与 NTP 时间服务器同步时间
+
+        Args:
+            retry: 最大重试次数，不指定则使用类实例化时的参数
         """
         self.ntptime.host = self.host
-        # 设置NTP时区，中国在 UTC +8 时区计算方式： 3155673600 - 8*3600 = 3155644800
-        self.ntptime.NTP_DELTA = 3155673600 - self.time_zone * 3600
+        # 设置NTP时区，并进行时间补偿
         for i in range(self.retry):  # 最多尝试获取 self.retry 次
             try:
                 self.ntptime.settime()  # 获取网络时间
+                t = list(self.rtc.datetime())
+                t[4] = t[4] + self.time_zone
+                self.rtc.datetime(t)
                 return True
             except Exception as error:
-                print("[ERROR] Can not get time, Trying again({}/ {})\n{}".format(i+1, self.retry, error))
+                print("[ERROR] Can not get time, Trying again({}/{}) {}".format(i + 1, self.retry, error))
             _time.sleep_ms(self.delay)
         print("[ERROR] Can not get time, Maybe the network is not connected!")
         return False
